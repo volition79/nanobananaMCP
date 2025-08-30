@@ -32,7 +32,11 @@
       "mcp__nanobanana__nanobanana_edit",
       "mcp__nanobanana__nanobanana_blend",
       "Bash(git init:*)",
-      "Bash(git add:*)"
+      "Bash(git add:*)",
+      "Bash(git remote add:*)",
+      "Bash(git config:*)",
+      "Bash(git push:*)",
+      "Bash(git checkout:*)"
     ],
     "deny": [],
     "ask": []
