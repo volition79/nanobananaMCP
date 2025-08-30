@@ -1,0 +1,22 @@
+# Core dependencies
+google-genai>=0.3.0
+fastmcp>=0.1.0
+pydantic>=2.0.0
+httpx>=0.24.0
+
+# Image processing
+pillow>=9.0.0
+
+# Environment management
+python-dotenv>=1.0.0
+
+# Development dependencies
+pytest>=7.0.0
+pytest-asyncio>=0.21.0
+black>=23.0.0
+isort>=5.12.0
+flake8>=6.0.0
+
+# Optional utilities
+rich>=13.0.0  # For better console output
+typer>=0.9.0  # For CLI interface
