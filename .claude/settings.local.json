@@ -49,7 +49,9 @@
       "Bash(gh pr:*)",
       "Bash(git commit:*)",
       "Bash(git push:*)",
-      "Bash(gh repo view:*)"
+      "Bash(gh repo view:*)",
+      "Bash(git show-branch:*)",
+      "Bash(git remote set-head:*)"
     ],
     "deny": [],
     "ask": []
