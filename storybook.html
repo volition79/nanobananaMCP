@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>동물 친구들과 함께하는 신나는 달리기 경주</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #74b9ff 0%, #0984e3 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .storybook {
+            max-width: 800px;
+            width: 100%;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .page {
+            display: none;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .page-header {
+            background: linear-gradient(135deg, #fd79a8 0%, #e84393 100%);
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .page-title {
+            font-size: 1.5em;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .page-number {
+            font-size: 1em;
+            opacity: 0.9;
+        }
+
+        .page-image {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+            border-bottom: 3px solid #fd79a8;
+        }
+
+        .page-text {
+            padding: 30px;
+            font-size: 1.2em;
+            line-height: 1.8;
+            color: #2d3436;
+            text-align: center;
+            background: #f8f9fa;
+        }
+
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 30px;
+            background: #74b9ff;
+            color: white;
+        }
+
+        .nav-btn {
+            background: white;
+            color: #74b9ff;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            font-size: 1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-width: 100px;
+        }
+
+        .nav-btn:hover {
+            background: #fd79a8;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .nav-btn:disabled {
+            background: #ddd;
+            color: #999;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .page-indicator {
+            display: flex;
+            gap: 8px;
+        }
+
+        .indicator-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.5);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .indicator-dot.active {
+            background: white;
+            transform: scale(1.2);
+        }
+
+        .cover-page {
+            background: linear-gradient(135deg, #fd79a8 0%, #74b9ff 100%);
+            color: white;
+            text-align: center;
+            padding: 60px 30px;
+        }
+
+        .main-title {
+            font-size: 2.5em;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .subtitle {
+            font-size: 1.3em;
+            margin-bottom: 40px;
+            opacity: 0.9;
+        }
+
+        .start-btn {
+            background: white;
+            color: #fd79a8;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.2em;
+            font-weight: bold;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .start-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+
+        .character-intro {
+            display: flex;
+            justify-content: space-around;
+            margin: 30px 0;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .character {
+            text-align: center;
+            padding: 15px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 15px;
+            min-width: 120px;
+        }
+
+        .character-name {
+            font-weight: bold;
+            font-size: 1.1em;
+            margin-top: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .storybook {
+                margin: 10px;
+            }
+            
+            .main-title {
+                font-size: 2em;
+            }
+            
+            .page-text {
+                font-size: 1.1em;
+                padding: 20px;
+            }
+            
+            .character-intro {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="storybook">
+        <!-- 표지 페이지 -->
+        <div class="page active" id="cover">
+            <div class="cover-page">
+                <h1 class="main-title">🏃‍♂️ 동물 친구들과 함께하는 신나는 달리기 경주 🏃‍♀️</h1>
+                <p class="subtitle">우정이 가장 소중한 보물이에요!</p>
+                <div class="character-intro">
+                    <div class="character">
+                        <div>👦</div>
+                        <div class="character-name">민수</div>
+                    </div>
+                    <div class="character">
+                        <div>👧</div>
+                        <div class="character-name">지은이</div>
+                    </div>
+                    <div class="character">
+                        <div>🐕</div>
+                        <div class="character-name">골디</div>
+                    </div>
+                    <div class="character">
+                        <div>🐱</div>
+                        <div class="character-name">나비</div>
+                    </div>
+                    <div class="character">
+                        <div>🦦</div>
+                        <div class="character-name">달이</div>
+                    </div>
+                </div>
+                <button class="start-btn" onclick="startStory()">📖 동화 시작하기</button>
+            </div>
+        </div>
+
+        <!-- 1페이지 -->
+        <div class="page" id="page1">
+            <div class="page-header">
+                <div class="page-title">공원에서 만난 다섯 친구</div>
+                <div class="page-number">1 / 10</div>
+            </div>
+            <img src="outputs/edited/nanobanana_edited_20250901_172419_3eeb861e.png" alt="공원에서 만난 친구들" class="page-image">
+            <div class="page-text">
+                따스한 봄날, 푸른 잔디가 펼쳐진 공원에서 다섯 친구가 만났어요.<br>
+                민수와 지은이, 그리고 동물 친구들인 골디, 나비, 달이가 함께 모였답니다.<br>
+                "오늘은 정말 좋은 날씨네!" 민수가 환하게 웃으며 말했어요.
+            </div>
+        </div>
+
+        <!-- 2페이지 -->
+        <div class="page" id="page2">
+            <div class="page-header">
+                <div class="page-title">달리기 경주를 제안해요</div>
+                <div class="page-number">2 / 10</div>
+            </div>
+            <img src="outputs/edited/nanobanana_edited_20250901_172449_ddc02e6f.png" alt="경주 제안" class="page-image">
+            <div class="page-text">
+                "여러분, 이렇게 좋은 날씨에 함께 달리기 경주를 해보면 어떨까요?"<br>
+                민수가 손가락을 치켜들며 신나게 제안했어요.<br>
+                친구들의 눈이 반짝반짝 빛나기 시작했답니다!
+            </div>
+        </div>
+
+        <!-- 3페이지 -->
+        <div class="page" id="page3">
+            <div class="page-header">
+                <div class="page-title">출발선에서 준비해요</div>
+                <div class="page-number">3 / 10</div>
+            </div>
+            <img src="outputs/edited/nanobanana_edited_20250901_172519_e23d344c.png" alt="출발선 준비" class="page-image">
+            <div class="page-text">
+                모든 친구들이 출발선에 나란히 섰어요.<br>
+                민수와 지은이는 달리기 자세를 취하고, 골디는 앞발을 구부려 준비했어요.<br>
+                나비는 몸을 낮춰 뛸 준비를 하고, 달이도 작은 몸을 단단히 했답니다.
+            </div>
+        </div>
+
+        <!-- 4페이지 -->
+        <div class="page" id="page4">
+            <div class="page-header">
+                <div class="page-title">3, 2, 1... 출발!</div>
+                <div class="page-number">4 / 10</div>
+            </div>
+            <img src="outputs/edited/nanobanana_edited_20250901_172546_5b5a0378.png" alt="경주 시작" class="page-image">
+            <div class="page-text">
+                "3, 2, 1... 출발!" <br>
+                신호와 함께 모든 친구들이 힘차게 뛰기 시작했어요!<br>
+                발밑에서 먼지가 날리며 정말 신나는 경주가 시작되었답니다.
+            </div>
+        </div>
+
+        <!-- 5페이지 -->
+        <div class="page" id="page5">
+            <div class="page-header">
+                <div class="page-title">골디가 앞서 나가요</div>
+                <div class="page-number">5 / 10</div>
+            </div>
+            <img src="outputs/edited/nanobanana_edited_20250901_172616_5e59893e.png" alt="골디가 앞서감" class="page-image">
+            <div class="page-text">
+                "멍멍!" 골디가 신나게 짖으며 혀를 내밀고 앞서 달려갔어요.<br>
+                네 발로 뛰는 골디는 정말 빨랐어요!<br>
+                뒤에서 친구들이 "골디야, 너무 빨라!" 하며 따라오고 있었답니다.
+            </div>
+        </div>
+
+        <!-- 6페이지 -->
+        <div class="page" id="page6">
+            <div class="page-header">
+                <div class="page-title">나비의 똑똑한 지름길</div>
+                <div class="page-number">6 / 10</div>
+            </div>
+            <img src="outputs/edited/nanobanana_edited_20250901_172646_f4c8ad3e.png" alt="고양이가 나무를 타며 지름길" class="page-image">
+            <div class="page-text">
+                "야옹~ 나는 지름길을 알고 있어!"<br>
+                영리한 나비가 나무를 타고 올라가기 시작했어요.<br>
+                나무 위를 통해 가면 더 빨리 갈 수 있다는 것을 알았거든요!
+            </div>
+        </div>
+
+        <!-- 7페이지 -->
+        <div class="page" id="page7">
+            <div class="page-header">
+                <div class="page-title">달이의 수영 실력</div>
+                <div class="page-number">7 / 10</div>
+            </div>
+            <img src="outputs/edited/nanobanana_edited_20250901_172715_8cfa664b.png" alt="수달이 연못을 헤엄쳐 따라잡기" class="page-image">
+            <div class="page-text">
+                "첨벙첨벙!" 달이가 연못을 발견하고는 물속으로 뛰어들었어요.<br>
+                수영을 잘하는 달이는 물살을 가르며 빠르게 헤엄쳤답니다.<br>
+                물 위로 튀는 물방울이 반짝반짝 빛났어요!
+            </div>
+        </div>
+
+        <!-- 8페이지 -->
+        <div class="page" id="page8">
+            <div class="page-header">
+                <div class="page-title">막판 전력질주!</div>
+                <div class="page-number">8 / 10</div>
+            </div>
+            <img src="outputs/edited/nanobanana_edited_20250901_172743_2d10a5f8.png" alt="막판 스퍼트" class="page-image">
+            <div class="page-text">
+                골인선이 보이자 모든 친구들이 마지막 힘을 내어 뛰었어요!<br>
+                "으랏차! 으랏차!" 누가 먼저 도착할까요?<br>
+                정말 치열한 경주였어요!
+            </div>
+        </div>
+
+        <!-- 9페이지 -->
+        <div class="page" id="page9">
+            <div class="page-header">
+                <div class="page-title">함께 골인!</div>
+                <div class="page-number">9 / 10</div>
+            </div>
+            <img src="outputs/edited/nanobanana_edited_20250901_172811_578fd058.png" alt="모두가 동시에 골인" class="page-image">
+            <div class="page-text">
+                놀랍게도 다섯 친구 모두가 거의 동시에 골인선을 통과했어요!<br>
+                "와~~!" 모두가 함께 소리쳤어요.<br>
+                1등이 누구인지는 중요하지 않았어요.
+            </div>
+        </div>
+
+        <!-- 10페이지 -->
+        <div class="page" id="page10">
+            <div class="page-header">
+                <div class="page-title">가장 소중한 것은 우정이에요</div>
+                <div class="page-number">10 / 10</div>
+            </div>
+            <img src="outputs/edited/nanobanana_edited_20250901_172841_6a22844e.png" alt="함께 기뻐하며 우정" class="page-image">
+            <div class="page-text">
+                다섯 친구는 서로를 꼭 안아주며 함께 웃었어요.<br>
+                "경주에서 이기는 것보다 함께 뛰는 게 더 즐거웠어!"<br>
+                가장 소중한 건 바로 우정이라는 걸 깨달았답니다. 💝
+            </div>
+        </div>
+
+        <!-- 네비게이션 -->
+        <div class="navigation">
+            <button class="nav-btn" id="prevBtn" onclick="prevPage()">← 이전</button>
+            <div class="page-indicator" id="pageIndicator">
+                <div class="indicator-dot active" onclick="goToPage(0)"></div>
+                <div class="indicator-dot" onclick="goToPage(1)"></div>
+                <div class="indicator-dot" onclick="goToPage(2)"></div>
+                <div class="indicator-dot" onclick="goToPage(3)"></div>
+                <div class="indicator-dot" onclick="goToPage(4)"></div>
+                <div class="indicator-dot" onclick="goToPage(5)"></div>
+                <div class="indicator-dot" onclick="goToPage(6)"></div>
+                <div class="indicator-dot" onclick="goToPage(7)"></div>
+                <div class="indicator-dot" onclick="goToPage(8)"></div>
+                <div class="indicator-dot" onclick="goToPage(9)"></div>
+                <div class="indicator-dot" onclick="goToPage(10)"></div>
+            </div>
+            <button class="nav-btn" id="nextBtn" onclick="nextPage()">다음 →</button>
+        </div>
+    </div>
+
+    <script>
+        let currentPage = 0;
+        const totalPages = 11; // 표지 + 10페이지
+
+        function showPage(pageNum) {
+            // 모든 페이지 숨기기
+            const allPages = document.querySelectorAll('.page');
+            allPages.forEach(page => page.classList.remove('active'));
+            
+            // 현재 페이지 보이기
+            if (pageNum === 0) {
+                document.getElementById('cover').classList.add('active');
+            } else {
+                document.getElementById(`page${pageNum}`).classList.add('active');
+            }
+            
+            // 네비게이션 버튼 상태 업데이트
+            document.getElementById('prevBtn').disabled = (pageNum === 0);
+            document.getElementById('nextBtn').disabled = (pageNum === totalPages - 1);
+            
+            // 페이지 인디케이터 업데이트
+            const dots = document.querySelectorAll('.indicator-dot');
+            dots.forEach((dot, index) => {
+                dot.classList.toggle('active', index === pageNum);
+            });
+            
+            currentPage = pageNum;
+        }
+
+        function startStory() {
+            goToPage(1);
+        }
+
+        function nextPage() {
+            if (currentPage < totalPages - 1) {
+                goToPage(currentPage + 1);
+            }
+        }
+
+        function prevPage() {
+            if (currentPage > 0) {
+                goToPage(currentPage - 1);
+            }
+        }
+
+        function goToPage(pageNum) {
+            if (pageNum >= 0 && pageNum < totalPages) {
+                showPage(pageNum);
+            }
+        }
+
+        // 키보드 네비게이션
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'ArrowLeft') {
+                prevPage();
+            } else if (e.key === 'ArrowRight') {
+                nextPage();
+            }
+        });
+
+        // 초기화
+        showPage(0);
+    </script>
+</body>
+</html>
