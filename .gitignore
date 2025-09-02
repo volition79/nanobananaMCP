@@ -267,3 +267,85 @@ mcp_cache/
 *.fls
 *.synctex.gz
 *.toc
+
+# ================================
+# Claude Code 관련 파일들
+# ================================
+# Claude 설정 디렉토리
+.claude/
+.claude.md
+
+# Claude 문서 및 설정 파일들
+CLAUDE.md
+CLAUDE.md.bak
+*.claude.md
+
+# ================================
+# 이미지 및 미디어 파일들
+# ================================
+# 이미지 파일들 (소스 코드와 관련 없는)
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.webp
+*.bmp
+*.tiff
+*.svg
+
+# 동영상 파일들
+*.mp4
+*.avi
+*.mov
+*.wmv
+*.flv
+*.mkv
+
+# 오디오 파일들
+*.mp3
+*.wav
+*.flac
+*.aac
+*.ogg
+
+# ================================
+# 기타 실행과 관련없는 파일들
+# ================================
+# 문서 파일들
+*.pdf
+*.doc
+*.docx
+*.ppt
+*.pptx
+*.xls
+*.xlsx
+
+# 아카이브 파일들 (이미 포함되어 있지만 추가)
+*.tar
+*.tar.bz2
+*.tar.xz
+*.gz
+*.bz2
+*.xz
+
+# 실행 파일들 (Windows)
+*.exe
+*.msi
+*.dll
+
+# 데이터 파일들
+*.db
+*.sqlite
+*.json.bak
+*.csv.bak
+
+# 개발 도구 출력물
+node_modules/
+bower_components/
+.npm/
+.yarn/
+
+# 에디터 임시 파일들
+.#*
+*#
+.*.un~
