@@ -85,7 +85,9 @@ Claude Desktop의 설정 파일(`claude_desktop_config.json`)을 열고 `mcpServ
       "command": "nanobanana-mcp",
       "args": [],
       "env": {
-        "GEMINI_API_KEY": "YOUR_API_KEY_HERE"
+        "GEMINI_API_KEY": "YOUR_API_KEY_HERE",
+        "GOOGLE_API_KEY": "YOUR_API_KEY_HERE",
+        "GOOGLE_AI_API_KEY": "YOUR_API_KEY_HERE"
       }
     }
   }
@@ -102,7 +104,9 @@ Claude Desktop의 설정 파일(`claude_desktop_config.json`)을 열고 `mcpServ
       "args": ["-m", "src.server"],
       "cwd": "/path/to/your/nanobanana-mcp",
       "env": {
-        "GEMINI_API_KEY": "YOUR_API_KEY_HERE"
+        "GEMINI_API_KEY": "YOUR_API_KEY_HERE",
+        "GOOGLE_API_KEY": "YOUR_API_KEY_HERE",
+        "GOOGLE_AI_API_KEY": "YOUR_API_KEY_HERE"
       }
     }
   }
@@ -118,7 +122,9 @@ Claude Desktop의 설정 파일(`claude_desktop_config.json`)을 열고 `mcpServ
       "command": "/path/to/.venv/bin/nanobanana-mcp",
       "args": [],
       "env": {
-        "GEMINI_API_KEY": "YOUR_API_KEY_HERE"
+        "GEMINI_API_KEY": "YOUR_API_KEY_HERE",
+        "GOOGLE_API_KEY": "YOUR_API_KEY_HERE",
+        "GOOGLE_AI_API_KEY": "YOUR_API_KEY_HERE"
       }
     }
   }
@@ -318,6 +324,8 @@ NANOBANANA_LOG_LEVEL=DEBUG nanobanana-mcp
       "command": "nanobanana-mcp",
       "env": {
         "GEMINI_API_KEY": "your-key",
+        "GOOGLE_API_KEY": "your-key",
+        "GOOGLE_AI_API_KEY": "your-key",
         "NANOBANANA_LOG_LEVEL": "DEBUG"
       }
     }

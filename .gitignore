@@ -250,6 +250,11 @@ temporary/
 mcp_cache/
 .mcp/
 
+# MCP 테스트 설정 파일들 (API 키 포함)
+test_mcp_config.json
+test_installed_mcp_config.json
+*_mcp_config.json
+
 # 백업 파일들
 *.bak
 *.backup

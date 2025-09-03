@@ -3,6 +3,7 @@ google-genai>=0.3.0
 fastmcp>=0.1.0
 pydantic>=2.0.0
 httpx>=0.24.0
+psutil>=5.9.0
 
 # Image processing
 pillow>=9.0.0

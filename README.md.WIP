@@ -1,0 +1,418 @@
+# 🍌 NanoBanana MCP
+
+Model Context Protocol (MCP) server that lets you use Google’s Gemini 2.5 Flash Image with Claude Code
+
+Installation
+ • Setup
+ • Usage
+ • Troubleshooting
+
+## 📋 Overview
+
+NanoBanana MCP is an MCP server that makes Google’s Gemini 2.5 Flash Image (codename “NanoBanana”) work seamlessly with Claude Code/Desktop and Gemini CLI.
+
+### 🎯 Key Features
+
+- 🎨 Text-to-Image Generation — Create high-quality images from natural-language prompts
+
+- ✏️ Image Editing — Modify existing images via natural-language instructions
+
+- 🔄 Image Blending — Combine multiple images into a new composition
+
+- 📊 Status Monitoring — Check API usage and server health in real time
+
+### 🔧 Technical Specs
+
+- Model: gemini-2.5-flash-image-preview
+
+- Max Resolution: up to 1024×1024
+
+- Formats: PNG, JPEG, WebP
+
+- Cost: approx. $0.039 per image (≈1290 tokens)
+
+- Python: 3.8+
+
+---
+
+## 🚀 Installation
+
+### Method 1: Install with pipx (Recommended)
+
+```bash
+# If you don’t have pipx yet
+python -m pip install --user pipx
+pipx ensurepath
+
+# Install NanoBanana MCP
+pipx install nanobanana-mcp
+```
+
+### Method 2: Install in a virtualenv with pip
+
+```bash
+# Create & activate a venv
+python -m venv .venv
+
+# Windows
+.venv\Scripts\activate
+
+# macOS/Linux
+source .venv/bin/activate
+
+# Install the package
+pip install nanobanana-mcp
+```
+
+### Method 3: Install dev build (latest features)
+
+```bash
+# Install from TestPyPI
+pip install --index-url https://test.pypi.org/simple/ nanobanana-mcp
+```
+
+---
+
+## 🔧 Claude Code Integration
+### 1) Get an API key
+
+Create a Gemini API key in Google AI Studio
+
+Important: NanoBanana reads the API key only from (1) mcpServers.env in the Claude config or (2) a local .env file. OS environment variables are ignored for the API key.
+
+### 2) MCP configuration
+
+Open Claude Desktop’s config (claude_desktop_config.json) and add one of the following under mcpServers:
+
+### A. Run the console script (simple / recommended)
+
+```json
+{
+  "mcpServers": {
+    "nanobanana": {
+      "command": "nanobanana-mcp",
+      "args": [],
+      "env": {
+        "GEMINI_API_KEY": "YOUR_API_KEY_HERE"
+      }
+    }
+  }
+}
+```
+
+### B. Run as a Python module (compatible with current layout)
+
+```json
+{
+  "mcpServers": {
+    "nanobanana": {
+      "command": "python",
+      "args": ["-m", "src.server"],
+      "cwd": "/path/to/your/nanobanana-mcp",
+      "env": {
+        "GEMINI_API_KEY": "YOUR_API_KEY_HERE"
+      }
+    }
+  }
+}
+```
+
+### C. Point to your virtualenv binary
+
+```json
+{
+  "mcpServers": {
+    "nanobanana": {
+      "command": "/path/to/.venv/bin/nanobanana-mcp",
+      "args": [],
+      "env": {
+        "GEMINI_API_KEY": "YOUR_API_KEY_HERE"
+      }
+    }
+  }
+}
+```
+
+### 3) .env file (optional)
+
+Create a .env file at the server’s working directory:
+
+```bash
+# .env contents
+GEMINI_API_KEY=your-api-key-here
+GOOGLE_AI_API_KEY=your-api-key-here  # alternative name supported
+```
+
+API key source order: mcpServers.env > .env
+(OS env vars are ignored for API key)
+
+---
+
+## 💡 Usage
+
+In Claude Code / Gemini CLI / Claude Desktop, just use natural language. The correct MCP tool is chosen automatically.
+
+### 🎨 Generate images
+
+```
+Draw a cat with sunglasses on a beach
+```
+
+```
+Create a realistic castle on a mountain at sunset in 16:9
+```
+
+### ✏️ Edit images
+```
+Replace the background of this photo with a night sky
+```
+
+```
+Change the car color in this image to red
+```
+
+### 🔄 Blend images
+```
+Blend these two landscape photos into a single fantasy scene
+```
+
+```
+Blend the mountain and castle images into a fantasy landscape
+```
+
+---
+
+## 📊 Check status
+Show the NanoBanana server status
+
+Display usage statistics of the image generator
+
+🛠️ MCP Tools
+### 1) nanobanana_generate — Image generation
+| Parameter         | Type                | Default  | Description                                         |
+| ----------------- | ------------------- | -------- | --------------------------------------------------- |
+| `prompt`          | **required** string | –        | Text description to generate from                   |
+| `aspect_ratio`    | string              | `null`   | `"1:1"`, `"16:9"`, `"9:16"`, `"4:3"`                |
+| `style`           | string              | `null`   | e.g. `"photorealistic"`, `"digital_art"`, `"anime"` |
+| `quality`         | string              | `"high"` | `"auto"`, `"low"`, `"medium"`, `"high"`             |
+| `output_format`   | string              | `"png"`  | `"png"`, `"jpeg"`, `"webp"`                         |
+| `candidate_count` | int                 | `1`      | Number of images to create (1–4)                    |
+
+
+### 2) nanobanana_edit — Image editing
+| Parameter     | Type                | Default | Description                      |
+| ------------- | ------------------- | ------- | -------------------------------- |
+| `image_path`  | **required** string | –       | Path to the image to edit        |
+| `edit_prompt` | **required** string | –       | Editing instruction              |
+| `mask_path`   | string              | `null`  | Optional mask for targeted edits |
+
+
+### 3) nanobanana_blend — Image blending
+| Parameter              | Type                | Default | Description                      |
+| ---------------------- | ------------------- | ------- | -------------------------------- |
+| `image_paths`          | **required** array  | –       | 2–4 image paths to blend         |
+| `blend_prompt`         | **required** string | –       | How to compose the blended image |
+| `maintain_consistency` | bool                | `true`  | Keep character/style consistency |
+
+
+### 4) nanobanana_status — Status
+| Parameter         | Type | Default | Description           |
+| ----------------- | ---- | ------- | --------------------- |
+| `detailed`        | bool | `true`  | Include detailed info |
+| `include_history` | bool | `false` | Include usage history |
+| `reset_stats`     | bool | `false` | Reset counters        |
+
+
+---
+
+## 🎨 Styles & Aspect Ratios
+
+### 🎨 Styles
+
+| Style            | Keywords     | Notes                           |
+| ---------------- | ------------ | ------------------------------- |
+| `photorealistic` | photo-real   | Realistic, photo-like rendering |
+| `digital_art`    | digital art  | Illustration style              |
+| `anime`          | anime, manga | Japanese animation style        |
+| `oil_painting`   | oil painting | Traditional oil painting        |
+| `watercolor`     | watercolor   | Soft, watercolor feel           |
+| `sketch`         | sketch       | Pencil sketch look              |
+
+### 📏 Aspect ratios
+
+| Ratio  | Use case         | Example           |
+| ------ | ---------------- | ----------------- |
+| `1:1`  | Square / social  | Instagram post    |
+| `16:9` | Wide / wallpaper | YouTube thumbnail |
+| `9:16` | Tall / stories   | Phone wallpaper   |
+| `4:3`  | Classic          | Presentations     |
+
+
+---
+
+### 📁 Output Layout
+
+Generated assets are saved like this:
+
+```
+outputs/
+├── generated/     # generated images
+├── edited/        # edited images
+├── blended/       # blended images
+└── metadata.json  # metadata
+```
+
+Each image includes:
+
+- Original / optimized prompt
+- Generation time & cost
+- Model & settings used
+- File size & format
+
+---
+
+## 🔧 Troubleshooting
+
+### Common issues
+
+#### ❌ Server exits immediately
+
+Cause: Missing or invalid API key
+
+Fix:
+1. Ensure GEMINI_API_KEY is set in mcpServers.env or .env
+2. Generate a valid key from Google AI Studio
+3. Restart Claude Desktop
+
+#### ❌ Input validation error
+Cause: MCP server is still running old code
+
+Fix:
+1. Run /mcp inside Claude Desktop
+2. Or fully restart Claude Desktop
+
+####❌ Image not displayed
+
+Cause: Response format or path issue
+
+Fix:
+1. Verify image path (absolute vs relative)
+2. Check the server’s working directory (cwd)
+3. Confirm file permissions / existence
+
+#### ❌ pipx not found on Windows
+
+Fix:
+```bash
+pipx ensurepath
+# Restart the terminal and try again
+```
+
+### Debug mode
+
+Enable detailed logs:
+
+```bash
+# Option 1: Run with local env file (.env)
+NANOBANANA_LOG_LEVEL=DEBUG
+```
+
+# Option 2: Put it in Claude’s mcpServers.env
+```json
+{
+  "mcpServers": {
+    "nanobanana": {
+      "command": "nanobanana-mcp",
+      "env": {
+        "GEMINI_API_KEY": "your-key",
+        "NANOBANANA_LOG_LEVEL": "DEBUG"
+      }
+    }
+  }
+}
+```
+
+---
+
+API key itself must still come from mcpServers.env or .env.
+(Other non-secret settings may be set via regular env if your server supports them.)
+
+## 🔄 Updating
+
+### Upgrade the package
+
+```bash
+# pip users
+pip install --upgrade nanobanana-mcp
+
+# pipx users
+pipx upgrade nanobanana-mcp
+```
+
+### Release notes
+
+- See CHANGELOG.md for version history
+- Check GitHub Releases for official builds
+
+---
+
+## 📚 References
+
+- Gemini API docs — https://ai.google.dev/gemini-api/docs/models
+- Model Context Protocol — https://github.com/modelcontextprotocol/specification
+- Claude Code MCP guide — https://docs.anthropic.com/en/docs/build-with-claude/mcp
+
+---
+
+## 🤝 Contributing
+
+1. Fork this repo
+2. Create a branch: git checkout -b feature/amazing-feature
+3. Commit: git commit -m 'Add amazing feature'
+4. Push: git push origin feature/amazing-feature
+5. Open a Pull Request
+
+### Dev environment
+
+```bash
+# Clone
+git clone https://github.com/volition79/nanobananaMCP.git
+cd nanobananaMCP
+
+# Dev deps
+pip install -e ".[dev]"
+
+# Tests
+pytest
+
+# Formatting
+black src/ tests/
+isort src/ tests/
+
+# Type check
+mypy src/
+```
+
+---
+
+## 📄 License
+
+Distributed under the MIT License (see LICENSE).
+
+```
+MIT License
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+```
+
+
+🍌 Experience a new dimension of creativity with NanoBanana MCP! 🍌

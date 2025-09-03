@@ -78,7 +78,9 @@ Add to your Claude Desktop configuration (`claude_desktop_config.json`):
       \"args\": [\"-m\", \"src.server\"],
       \"cwd\": \"/path/to/nanobanana_mcp\",
       \"env\": {
-        \"GOOGLE_AI_API_KEY\": \"your_api_key_here\"
+        \"GEMINI_API_KEY\": \"YOUR_API_KEY_HERE\",
+        \"GOOGLE_API_KEY\": \"YOUR_API_KEY_HERE\",
+        \"GOOGLE_AI_API_KEY\": \"YOUR_API_KEY_HERE\"
       }
     }
   }
@@ -532,6 +534,3 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ---
 
-**Made with ❤️ for the Claude Code community**
-
-*For questions, issues, or feature requests, please [open an issue](https://github.com/your-username/nanobanana_mcp/issues) or [start a discussion](https://github.com/your-username/nanobanana_mcp/discussions).*
